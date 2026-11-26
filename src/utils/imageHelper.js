@@ -44,6 +44,10 @@ export function stripHtml(html) {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
+    .replace(/&#39;|&rsquo;|&lsquo;/g, "'")
+    .replace(/&ldquo;|&rdquo;/g, '"')
+    .replace(/&ndash;|&#8211;/g, '–')
+    .replace(/&mdash;|&#8212;/g, ' - ')
+    .replace(/\s+\n/g, '\n')
     .trim();
 }

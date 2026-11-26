@@ -2,18 +2,13 @@ import axios from 'axios';
 
 const BASE_URL =
   import.meta.env.VITE_AIC_API_BASE_URL || 'https://api.artic.edu/api/v1';
-const USER_AGENT =
-  import.meta.env.VITE_AIC_USER_AGENT || 'ARTORA (artora@example.com)';
 
+// Keep browser GET requests CORS-safelisted (no custom headers like AIC-User-Agent, which trigger a 403 OPTIONS preflight).
 const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: 15000,
-  headers: {
-    'AIC-User-Agent': USER_AGENT,
-  },
 });
 
-// Lightweight in-memory cache to respect AIC API rate limits (60 req/min)
 const responseCache = new Map();
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
@@ -27,13 +22,6 @@ function buildCacheKey(url, params) {
   return `${url}?${sortedParams}`;
 }
 
-/**
- * Performs a cached GET request against the Art Institute of Chicago API.
- *
- * @param {string} url
- * @param {object} [params]
- * @param {AbortSignal} [signal]
- */
 export async function apiGet(url, params = {}, signal) {
   const key = buildCacheKey(url, params);
   const cached = responseCache.get(key);

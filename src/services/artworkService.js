@@ -6,6 +6,8 @@ export const ARTWORK_CARD_FIELDS = [
   'artist_title',
   'artist_display',
   'date_display',
+  'medium_display',
+  'short_description',
   'department_title',
   'department_id',
   'category_titles',
