@@ -19,6 +19,7 @@ import SecondaryButton from './components/SecondaryButton';
 
 import Home from './pages/Home';
 import ArtworkExplorer from './pages/ArtworkExplorer';
+import ArtworkDetail from './pages/ArtworkDetail';
 import NotFound from './pages/NotFound';
 
 function ScrollRestoration() {
@@ -184,13 +185,7 @@ export default function App() {
         {/* ARTWORK DETAIL - NISFA */}
         <Route
           path="/artworks/:id"
-          element={
-            <PendingTeamWing
-              wingTitle="Private Viewing"
-              branchName="feature/artwork-detail"
-              description="Uncropped high-resolution artwork stage, museum wall placard, and related works."
-            />
-          }
+          element={<ArtworkDetail />}
         />
 
         {/* ARTIST EXPLORER - IMELDA */}
