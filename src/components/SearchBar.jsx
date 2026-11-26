@@ -1,76 +1,62 @@
-import { useEffect, useId, useState } from 'react';
-import { Search, X } from 'lucide-react';
 
-/**
- * Museum-styled keyword search bar that submits search queries
- * and syncs cleanly with URL query state (?q=...).
- */
-export default function SearchBar({
-  value = '',
-  onSearch,
-  placeholder = 'Search artworks, artists, or mediums...',
-  label = 'Search artworks',
-  className = '',
-}) {
-  const inputId = useId();
-  const [inputValue, setInputValue] = useState(value);
+import { Search, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+export default function SearchBar({ query = '', onSearch }) {
+  const [value, setValue] = useState(query);
 
   useEffect(() => {
-    setInputValue(value);
-  }, [value]);
+    setValue(query);
+  }, [query]);
 
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    onSearch?.(inputValue.trim());
-  };
-
-  const handleClear = () => {
-    setInputValue('');
-    onSearch?.('');
-  };
+    onSearch(value.trim());
+  }
 
   return (
-    <form
-      role="search"
-      onSubmit={handleSubmit}
-      className={`flex w-full items-center gap-2 ${className}`}
-    >
-      <label htmlFor={inputId} className="sr-only">
-        {label}
+    <form onSubmit={handleSubmit} role="search" className="w-full">
+      <label htmlFor="artwork-explorer-search" className="sr-only">
+        Search artworks by title, artist, or subject
       </label>
 
-      <div className="relative flex min-h-[44px] flex-1 items-center rounded-sm border border-[#C8B9A3] bg-warm-white transition-colors duration-150 focus-within:border-burgundy focus-within:ring-2 focus-within:ring-gold">
+      <div className="flex min-h-[48px] items-center gap-2 border border-transparent bg-[#EFE9DC] px-3 text-[#211D19] transition-colors focus-within:border-[#C9B38C] sm:px-4">
         <Search
-          className="pointer-events-none ml-3.5 h-4 w-4 shrink-0 text-ash"
-          strokeWidth={1.75}
+          className="h-5 w-5 shrink-0 text-[#5C554C]"
+          strokeWidth={1.6}
           aria-hidden="true"
         />
+
         <input
-          id={inputId}
+          id="artwork-explorer-search"
           type="search"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder={placeholder}
-          className="min-h-[44px] w-full bg-transparent px-3 py-2 text-sm text-charcoal placeholder:text-ash focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          placeholder="Search artworks, artists, or subjects..."
+          className="min-w-0 flex-1 bg-transparent py-3 text-sm text-[#211D19] outline-none placeholder:text-[#756E63]"
         />
-        {inputValue ? (
+
+        {value && (
           <button
             type="button"
-            onClick={handleClear}
+            onClick={() => {
+              setValue('');
+              onSearch('');
+            }}
             aria-label="Clear search"
-            className="mr-1.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-ash transition-colors duration-150 hover:text-burgundy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center text-[#5C554C] hover:text-[#451D1D]"
           >
-            <X className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+            <X className="h-4 w-4" aria-hidden="true" />
           </button>
-        ) : null}
-      </div>
+        )}
 
-      <button
-        type="submit"
-        className="inline-flex min-h-[44px] shrink-0 cursor-pointer items-center justify-center rounded-sm bg-burgundy px-5 py-2.5 text-sm font-medium text-ivory transition-colors duration-250 hover:bg-burgundy-hover active:bg-[#311313] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-      >
-        Search
-      </button>
+        <button
+          type="submit"
+          className="min-h-[40px] shrink-0 bg-[#451D1D] px-4 text-xs font-semibold uppercase tracking-[0.1em] text-[#F5F0E7] transition-colors hover:bg-[#5C2727] sm:px-5"
+        >
+          Search
+        </button>
+      </div>
     </form>
   );
 }
