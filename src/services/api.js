@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL =
-  import.meta.env.VITE_AIC_API_BASE_URL || 'https://api.artic.edu/api/v1';
+const BASE_URL = import.meta.env.VITE_AIC_API_BASE_URL || '/api/aic';
 
 // Keep browser GET requests CORS-safelisted (no custom headers like AIC-User-Agent, which trigger a 403 OPTIONS preflight).
 const apiClient = axios.create({

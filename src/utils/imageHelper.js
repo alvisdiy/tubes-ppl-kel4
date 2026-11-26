@@ -1,4 +1,5 @@
-const IIIF_BASE_URL = 'https://www.artic.edu/iiif/2';
+const IIIF_BASE_URL =
+  import.meta.env.VITE_AIC_IIIF_BASE_URL || '/api/iiif';
 
 /**
  * Builds an Art Institute of Chicago IIIF image URL for a given image_id.
