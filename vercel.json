@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/aic/:path*",
+      "destination": "/api/aic?__path=:path*"
+    },
+    {
+      "source": "/api/iiif/:path*",
+      "destination": "/api/iiif?__path=:path*"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
