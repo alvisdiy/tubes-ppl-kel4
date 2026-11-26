@@ -1,4 +1,6 @@
+
 import { useEffect } from 'react';
+
 import {
   BrowserRouter,
   Route,
@@ -7,11 +9,16 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
+
 import { Frame } from 'lucide-react';
+
 import MainLayout from './layouts/MainLayout';
+
 import PrimaryButton from './components/PrimaryButton';
 import SecondaryButton from './components/SecondaryButton';
+
 import Home from './pages/Home';
+import ArtworkExplorer from './pages/ArtworkExplorer';
 import NotFound from './pages/NotFound';
 
 function ScrollRestoration() {
@@ -19,24 +26,40 @@ function ScrollRestoration() {
 
   useEffect(() => {
     if (!hash) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto',
+      });
     }
   }, [pathname, hash]);
 
   return null;
 }
 
-// TODO: Replace PendingTeamWing routes with Risa's ArtworkExplorer, Imelda's ArtistExplorer, and Nisfa's ArtworkDetail during PR integration.
-function PendingTeamWing({ wingTitle, branchName, description }) {
+function PendingTeamWing({
+  wingTitle,
+  branchName,
+  description,
+}) {
   const params = useParams();
   const [searchParams] = useSearchParams();
+
   const activeQuery = searchParams.toString();
 
   return (
     <MainLayout>
       <section
         aria-labelledby="pending-wing-heading"
-        className="mx-auto max-w-2xl rounded-sm border border-gesso bg-warm-white p-8 text-center sm:p-12"
+        className="
+          mx-auto max-w-2xl
+          rounded-sm
+          border border-gesso
+          bg-warm-white
+          p-8
+          text-center
+          sm:p-12
+        "
       >
         <Frame
           className="mx-auto h-9 w-9 text-gold"
@@ -44,41 +67,93 @@ function PendingTeamWing({ wingTitle, branchName, description }) {
           aria-hidden="true"
         />
 
-        <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-bronze">
+        <p className="
+          mt-4
+          text-[11px]
+          font-semibold
+          uppercase
+          tracking-[0.2em]
+          text-bronze
+        ">
           Coming Soon · Scheduled for Branch Integration
         </p>
 
         <h1
           id="pending-wing-heading"
-          className="mt-3 font-serif text-[2rem] font-semibold leading-[1.15] text-charcoal sm:text-[2.75rem]"
+          className="
+            mt-3
+            font-serif
+            text-[2rem]
+            font-semibold
+            text-charcoal
+            sm:text-[2.75rem]
+          "
         >
           {wingTitle}
         </h1>
 
-        <p className="mx-auto mt-3 max-w-lg text-base leading-relaxed text-stone">
+        <p className="
+          mx-auto mt-3
+          max-w-lg
+          text-base
+          leading-relaxed
+          text-stone
+        ">
           {description} This wing is developed independently on{' '}
-          <code className="rounded-xs bg-limestone px-1.5 py-0.5 text-sm text-burgundy">
+          <code className="
+            rounded-xs
+            bg-limestone
+            px-1.5 py-0.5
+            text-sm text-burgundy
+          ">
             {branchName}
           </code>{' '}
           and connects here when its Pull Request merges into main.
         </p>
 
         {(params.id || activeQuery) && (
-          <div className="mx-auto mt-6 max-w-md rounded-sm border border-gesso bg-ivory px-4 py-3 text-left text-xs text-stone">
-            <p className="font-semibold uppercase tracking-[0.14em] text-bronze">
+          <div className="
+            mx-auto mt-6
+            max-w-md
+            rounded-sm
+            border border-gesso
+            bg-ivory
+            px-4 py-3
+            text-left text-xs text-stone
+          ">
+            <p className="
+              font-semibold
+              uppercase
+              tracking-[0.14em]
+              text-bronze
+            ">
               Verified Route Handoff
             </p>
+
             {params.id && (
-              <p className="mt-1 tabular-nums">Artwork ID: {params.id}</p>
+              <p className="mt-1 tabular-nums">
+                Artwork ID: {params.id}
+              </p>
             )}
-            {activeQuery && <p className="mt-1 break-all">Query: ?{activeQuery}</p>}
+
+            {activeQuery && (
+              <p className="mt-1 break-all">
+                Query: ?{activeQuery}
+              </p>
+            )}
           </div>
         )}
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="
+          mt-8
+          flex flex-wrap
+          items-center justify-center
+          gap-3
+        ">
           <PrimaryButton to="/" variant="burgundy">
             Back to Museum Entrance
           </PrimaryButton>
+
           <SecondaryButton to="/#curated-highlights">
             View Curated Highlights
           </SecondaryButton>
@@ -92,18 +167,21 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollRestoration />
+
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* HOME */}
+        <Route
+          path="/"
+          element={<Home />}
+        />
+
+        {/* ARTWORK EXPLORER - RISA */}
         <Route
           path="/artworks"
-          element={
-            <PendingTeamWing
-              wingTitle="Exhibition Hall"
-              branchName="feature/artwork-explorer"
-              description="Gallery search, department & category filtering, and paginated collection browsing."
-            />
-          }
+          element={<ArtworkExplorer />}
         />
+
+        {/* ARTWORK DETAIL - NISFA */}
         <Route
           path="/artworks/:id"
           element={
@@ -114,6 +192,8 @@ export default function App() {
             />
           }
         />
+
+        {/* ARTIST EXPLORER - IMELDA */}
         <Route
           path="/artists"
           element={
@@ -124,7 +204,12 @@ export default function App() {
             />
           }
         />
-        <Route path="*" element={<NotFound />} />
+
+        {/* NOT FOUND */}
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
       </Routes>
     </BrowserRouter>
   );
